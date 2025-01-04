@@ -1,0 +1,1 @@
+pyinstaller --clean --optimize=2 --noconfirm --onefile D:\MythProject\Windows10Tweak\disable_useless_services.py
