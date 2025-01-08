@@ -17,7 +17,6 @@
         "vmictimesync",
         "vmicvss",
         "LxpSvc",
-        "diagnosticshub.standardcollector.service",
         "wlidsvc",
         "OneSyncSvc",
         "SEMgrSvc",

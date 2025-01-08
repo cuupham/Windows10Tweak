@@ -20,11 +20,11 @@ def disable_service(service_name: str):
         subprocess.run(
             f"sc config {service_name} start= disabled", shell=True, check=True
         )
-        print(f"{service_name}: DISABLED SUCCESSFULLY")
+        print(f"\"{service_name}\": DISABLED SUCCESSFULLY")
 
     except subprocess.CalledProcessError as e:
         print(
-            f"[ERROR] {service_name} CAN'T DISABLE: {e}.\n...Trying Registry Method..."
+            f"[ERROR] \"{service_name}\" CAN'T DISABLED: {e}. Trying Registry Method..."
         )
         try:
             reg_path = r"SYSTEM\CurrentControlSet\Services" + "\\" + service_name
@@ -33,8 +33,22 @@ def disable_service(service_name: str):
                 key, "Start", 0, reg.REG_DWORD, 4
             )  # Set service start type to Disabled
             reg.CloseKey(key)
-            print(f"{service_name}: DISABLED SUCCESSFULLY using Registry")
+            print(f"\"{service_name}\": DISABLED SUCCESSFULLY using Registry")
         except Exception as e:
             raise Exception(
                 f"[ERROR] Failed to disable {service_name} using both 'sc' and Registry: {e}"
             )
+
+
+def is_service_exists(service_name):
+    try:
+        result = subprocess.run(
+            ["sc", "query", service_name],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        return "SERVICE_NAME" in result.stdout
+    except Exception as e:
+        print(f"Có lỗi xảy ra khi check: {e}")
+        return False
