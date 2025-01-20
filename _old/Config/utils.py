@@ -52,3 +52,6 @@ def is_service_exists(service_name):
     except Exception as e:
         print(f"Có lỗi xảy ra khi check: {e}")
         return False
+
+a = is_service_exists('NDU')
+print(a)
